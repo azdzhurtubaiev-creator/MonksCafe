@@ -87,7 +87,51 @@ public static class Ui
         bill.RemoveItemAt(number - 1);
         Console.WriteLine("Remove item was successful.");
     }
-    public static void AddTip(BillService bill) => Console.WriteLine("Not implemented yet.");
+    public static void AddTip(BillService bill)
+    {
+        if (bill.Items.Count == 0)
+        {
+            Console.WriteLine("There are no items in the bill to add tip for.");
+            return;
+        }
+
+        Console.WriteLine($"Net Total: {bill.GetNetTotal():F2}");
+        Console.WriteLine("1 - Tip Percentage");
+        Console.WriteLine("2 - Tip Amount");
+        Console.WriteLine("3 - No Tip");
+        string method = AskString("Enter Tip Method: ");
+
+        switch (method)
+        {
+            case "1":
+                string percentInput = AskString("Enter tip percentage: ");
+                if (!decimal.TryParse(percentInput.Replace(',', '.'), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal percent) || percent < 0 || percent > 100)
+                {
+                    Console.WriteLine("Add tip failed: percentage must be a number between 0 and 100.");
+                    return;
+                }
+                bill.SetTipPercentage(percent);
+                Console.WriteLine("Tip was set successfully.");
+                break;
+            case "2":
+                string amountInput = AskString("Enter Tip amount: ");
+                if (!decimal.TryParse(amountInput.Replace(',', '.'), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal amount) || amount < 0)
+                {
+                    Console.WriteLine("Add tip failed: amount must be a non-negative number.");
+                    return;
+                }
+                bill.SetTipAmount(amount);
+                Console.WriteLine("Tip was set successfully.");
+                break;
+            case "3":
+                bill.SetTipAmount(0m);
+                Console.WriteLine("Tip was removed.");
+                break;
+            default:
+                Console.WriteLine("Add tip failed: please choose 1, 2 or 3.");
+                break;
+        }
+    }
     public static void DisplayBill(BillService bill)
     {
         if (bill.Items.Count == 0)

@@ -48,4 +48,13 @@ public class BillService
             items.RemoveAt(index);
         }
     }
+public void SetTipAmount(decimal amount)
+    {
+        tipAmount = amount;
+    }
+
+    public void SetTipPercentage(decimal percent)
+    {
+        tipAmount = Math.Round(GetNetTotal() * percent / 100m, 2);
+    }
 }
