@@ -29,5 +29,13 @@ public class BillService
 
     public decimal GetGstAmount() => GetNetTotal() * GstRate;
 
-    public decimal GetTotalAmount() => GetNetTotal() + tipAmount + GetGstAmount();
+    public bool AddItem(string description, decimal price)
+    {
+        if (items.Count >= MaxItems)
+        {
+            return false;
+        }
+        items.Add(new BillItem { Description = description, Price = price });
+        return true;
+    }
 }
