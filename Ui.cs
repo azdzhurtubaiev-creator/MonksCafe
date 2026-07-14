@@ -158,6 +158,23 @@ public static class Ui
         bill.Clear();
         Console.WriteLine("All items have been cleared.");
     }
-    public static void SaveToFile(BillService bill) => Console.WriteLine("Not implemented yet.");
+   public static void SaveToFile(BillService bill)
+    {
+        string path = AskString("Enter the file path to save items to: ");
+        if (path.Length < 1 || path.Length > 10)
+        {
+            Console.WriteLine("Save failed: file name must be 1-10 characters long.");
+            return;
+        }
+
+        if (bill.SaveToFile(path))
+        {
+            Console.WriteLine($"Write to file {path} was successful.");
+        }
+        else
+        {
+            Console.WriteLine($"Write to file {path} failed. Please check the file name and try again.");
+        }
+    }
     public static void LoadFromFile(BillService bill) => Console.WriteLine("Not implemented yet.");
 }

@@ -62,4 +62,22 @@ public void Clear()
         items.Clear();
         tipAmount = 0m;
     }
+public bool SaveToFile(string path)
+    {
+        try
+        {
+            List<string> lines = new List<string>();
+            foreach (BillItem item in items)
+            {
+                lines.Add($"{item.Description};{item.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)}");
+            }
+            lines.Add($"TIP;{tipAmount.ToString(System.Globalization.CultureInfo.InvariantCulture)}");
+            File.WriteAllLines(path, lines);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
 }
