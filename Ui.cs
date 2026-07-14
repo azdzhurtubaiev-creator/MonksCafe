@@ -176,5 +176,22 @@ public static class Ui
             Console.WriteLine($"Write to file {path} failed. Please check the file name and try again.");
         }
     }
-    public static void LoadFromFile(BillService bill) => Console.WriteLine("Not implemented yet.");
+    public static void LoadFromFile(BillService bill)
+    {
+        string path = AskString("Enter the file path to load items from: ");
+        if (path.Length < 1 || path.Length > 10)
+        {
+            Console.WriteLine("Load failed: file name must be 1-10 characters long.");
+            return;
+        }
+
+        if (bill.LoadFromFile(path))
+        {
+            Console.WriteLine($"Read from file {path} was successful.");
+        }
+        else
+        {
+            Console.WriteLine($"Read from file {path} failed. Please check that the file exists and try again.");
+        }
+    }
 }

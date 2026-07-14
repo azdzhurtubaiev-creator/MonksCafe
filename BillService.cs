@@ -48,7 +48,8 @@ public class BillService
             items.RemoveAt(index);
         }
     }
-public void SetTipAmount(decimal amount)
+
+    public void SetTipAmount(decimal amount)
     {
         tipAmount = amount;
     }
@@ -57,12 +58,14 @@ public void SetTipAmount(decimal amount)
     {
         tipAmount = Math.Round(GetNetTotal() * percent / 100m, 2);
     }
-public void Clear()
+
+    public void Clear()
     {
         items.Clear();
         tipAmount = 0m;
     }
-public bool SaveToFile(string path)
+
+    public bool SaveToFile(string path)
     {
         try
         {
@@ -73,6 +76,53 @@ public bool SaveToFile(string path)
             }
             lines.Add($"TIP;{tipAmount.ToString(System.Globalization.CultureInfo.InvariantCulture)}");
             File.WriteAllLines(path, lines);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    public bool LoadFromFile(string path)
+    {
+        try
+        {
+            if (!File.Exists(path))
+            {
+                return false;
+            }
+
+            string[] lines = File.ReadAllLines(path);
+            List<BillItem> loadedItems = new List<BillItem>();
+            decimal loadedTip = 0m;
+
+            foreach (string line in lines)
+            {
+                string[] parts = line.Split(';');
+                if (parts.Length != 2)
+                {
+                    continue;
+                }
+
+                if (!decimal.TryParse(parts[1], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out decimal value))
+                {
+                    continue;
+                }
+
+                if (parts[0] == "TIP")
+                {
+                    loadedTip = value;
+                }
+                else if (loadedItems.Count < MaxItems)
+                {
+                    loadedItems.Add(new BillItem { Description = parts[0], Price = value });
+                }
+            }
+
+            items.Clear();
+            items.AddRange(loadedItems);
+            tipAmount = loadedTip;
             return true;
         }
         catch (Exception)
