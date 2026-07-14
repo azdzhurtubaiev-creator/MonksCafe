@@ -88,7 +88,27 @@ public static class Ui
         Console.WriteLine("Remove item was successful.");
     }
     public static void AddTip(BillService bill) => Console.WriteLine("Not implemented yet.");
-    public static void DisplayBill(BillService bill) => Console.WriteLine("Not implemented yet.");
+    public static void DisplayBill(BillService bill)
+    {
+        if (bill.Items.Count == 0)
+        {
+            Console.WriteLine("There are no items in the bill to display.");
+            return;
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Description               Price");
+        Console.WriteLine("--------------------  ---------");
+        foreach (BillItem item in bill.Items)
+        {
+            Console.WriteLine($"{item.Description,-20} {item.Price,9:F2}");
+        }
+        Console.WriteLine("--------------------  ---------");
+        Console.WriteLine($"{"Net Total",17} {bill.GetNetTotal(),10:F2}");
+        Console.WriteLine($"{"Tip Amount",17} {bill.TipAmount,10:F2}");
+        Console.WriteLine($"{"GST Amount",17} {bill.GetGstAmount(),10:F2}");
+        Console.WriteLine($"{"Total Amount",17} {bill.GetTotalAmount(),10:F2}");
+    }
     public static void ClearAll(BillService bill) => Console.WriteLine("Not implemented yet.");
     public static void SaveToFile(BillService bill) => Console.WriteLine("Not implemented yet.");
     public static void LoadFromFile(BillService bill) => Console.WriteLine("Not implemented yet.");
