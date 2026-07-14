@@ -57,4 +57,9 @@ public void SetTipAmount(decimal amount)
     {
         tipAmount = Math.Round(GetNetTotal() * percent / 100m, 2);
     }
+public void Clear()
+    {
+        items.Clear();
+        tipAmount = 0m;
+    }
 }

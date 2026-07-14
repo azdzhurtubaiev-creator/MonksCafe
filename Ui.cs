@@ -153,7 +153,11 @@ public static class Ui
         Console.WriteLine($"{"GST Amount",17} {bill.GetGstAmount(),10:F2}");
         Console.WriteLine($"{"Total Amount",17} {bill.GetTotalAmount(),10:F2}");
     }
-    public static void ClearAll(BillService bill) => Console.WriteLine("Not implemented yet.");
+    public static void ClearAll(BillService bill)
+    {
+        bill.Clear();
+        Console.WriteLine("All items have been cleared.");
+    }
     public static void SaveToFile(BillService bill) => Console.WriteLine("Not implemented yet.");
     public static void LoadFromFile(BillService bill) => Console.WriteLine("Not implemented yet.");
 }
