@@ -49,7 +49,44 @@ public static class Ui
         bill.AddItem(description, price);
         Console.WriteLine("Add item was successful.");
     }
-    public static void RemoveItem(BillService bill) => Console.WriteLine("Not implemented yet.");
+    public static void RemoveItem(BillService bill)
+    {
+        if (bill.Items.Count == 0)
+        {
+            Console.WriteLine("There are no items in the bill to remove.");
+            return;
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("ItemNo  Description               Price");
+        Console.WriteLine("------  -----------              ------");
+        for (int i = 0; i < bill.Items.Count; i++)
+        {
+            Console.WriteLine($"{i + 1,6}  {bill.Items[i].Description,-20} {bill.Items[i].Price,8:F2}");
+        }
+
+        string input = AskString("Enter the item number to remove or 0 to cancel: ");
+        if (!int.TryParse(input, out int number))
+        {
+            Console.WriteLine("Remove item failed: please enter a valid number.");
+            return;
+        }
+
+        if (number == 0)
+        {
+            Console.WriteLine("Remove was cancelled.");
+            return;
+        }
+
+        if (number < 1 || number > bill.Items.Count)
+        {
+            Console.WriteLine($"Remove item failed: number must be between 1 and {bill.Items.Count}.");
+            return;
+        }
+
+        bill.RemoveItemAt(number - 1);
+        Console.WriteLine("Remove item was successful.");
+    }
     public static void AddTip(BillService bill) => Console.WriteLine("Not implemented yet.");
     public static void DisplayBill(BillService bill) => Console.WriteLine("Not implemented yet.");
     public static void ClearAll(BillService bill) => Console.WriteLine("Not implemented yet.");
