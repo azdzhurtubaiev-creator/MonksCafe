@@ -43,4 +43,4 @@ dotnet run
 Dzhurtubaiev Arsen, group 611п
 
 
-
+Tested via cloned repository.
